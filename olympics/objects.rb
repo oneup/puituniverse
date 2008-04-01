@@ -107,7 +107,7 @@ class Character < Gameobject
     end
     
     x, y = level.draw_offset(@x, @track_no)
-    img("#{name}/#{action}").draw(x, y + @jump_offset, ZOrder::Tracks + @track_no)
+    img("./shared/#{name}/#{action}").draw(x, y + @jump_offset, ZOrder::Tracks + @track_no)
   end
 end
 
