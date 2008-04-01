@@ -1,0 +1,5 @@
+frames:
+  - duration: 1
+    image: "root/jack/stand.png"
+  - duration: 1
+    image: "root/jack/jump.png"
