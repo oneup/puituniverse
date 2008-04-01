@@ -1,8 +1,4 @@
-class Gameobject
-  def img what
-    Resources.load_gfx("#{what}")
-  end
-  
+class Gameobject  
   def level
     $level
   end

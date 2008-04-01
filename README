@@ -1,12 +1,19 @@
-puit
+== PuitUniverse
+
 the ever extendable game
-and programming language
+and game programming language
 
 
+== How to Run
 
-img("blabloblu").zeichnen
+sudo gem install gosu
+./run.rb
 
-später hardcore variante
+
+== Since 2008
+  oneup
+    Florian Hufsky
+    mailto://hello@geeq.at
 
 
-=> get the game done for heather  
+(cc) you and me and everyone we know

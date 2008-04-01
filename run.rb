@@ -2,11 +2,11 @@
 
 # RUBY PREREQUISITS
 require "rubygems"
-require 'gosu'
 require "yaml"
 
 # PIMP MY RUBY
 require "from_future_import.rb"
+require 'gosu'
 
 # LOAD THE UNIVERSE
 ".".each_dir do |bundle|

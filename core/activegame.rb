@@ -14,8 +14,6 @@ class ActiveGame < Gosu::Window
     super(@@resolution[0], @@resolution[1], @@fullscreen)
     self.caption = "Puit #{$game_name}"
     $window = self
-
-    Resources.init(self)
     setup
   end
 
