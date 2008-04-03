@@ -13,6 +13,9 @@ class OlympicsGame < ActiveGame
 
     $level = Level.new
     @objects << $level
+    @player = CpuPlayer.new "jack", 0
+    @player = CpuPlayer.new "jack", 1
+    @player = CpuPlayer.new "jack", 2
     @player = Player.new "jack", 3
     @objects << @player
   end
@@ -126,7 +129,7 @@ class Character < Gameobject
     0
   end
   
-  def press_run
+  def run!
     @velocity += @@run_speed
   end
 
@@ -169,15 +172,22 @@ class Player < Character
     key_mapping = {:run => Gosu::Button::KbRight}
     
     key_mapping.each do |function, key|
-      method = down ? "press_#{function}" : "release_#{function}"
+      method =  ? "press_#{function}" : "release_#{function}"
       self.send method if self.methods.include? method
     end
   end
+  
+  def press_run
+    run!
+  end  
 end
 
 class CpuPlayer < Character
   def update
+    if probability(0.5)
+      run!
+    end
+    
     super
-    @velocity = 0.5
   end
 end

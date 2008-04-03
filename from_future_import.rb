@@ -80,3 +80,7 @@ class String
     Kernel.const_get(self.classify)
   end
 end
+
+def probability pc
+  rand < pc
+end
