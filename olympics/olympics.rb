@@ -13,9 +13,6 @@ class OlympicsGame < ActiveGame
 
     $level = Level.new
     @objects << $level
-    @objects << CpuPlayer.new("jack", 0)
-    @objects << CpuPlayer.new("jack", 1)
-    @objects << CpuPlayer.new("jack", 2)
     @player = Player.new "jack", 3
     @objects << @player
   end
@@ -112,6 +109,9 @@ end
 class Character < Gameobject
   attr_reader :x, :track_no, :jump_offset, :is_jumping, :name
 
+  @@run_speed = 3.0
+  @@friction = 0.2
+
   def initialize name, track_no
     @name = name
     @x = 0
@@ -125,9 +125,17 @@ class Character < Gameobject
     return @jump_offset if is_jumping
     0
   end
+  
+  def press_run
+    @velocity += @@run_speed
+  end
 
   def update
     @x += @velocity
+    if @velocity != 0
+      @velocity -= @@friction
+      @velocity = 0 if @velocity < 0
+    end
   end
   
   def is_running
@@ -158,12 +166,11 @@ class Player < Character
   end
   
   def on_button down, id
-    if id == Gosu::Button::KbRight
-      if down
-        @velocity = 1
-      else
-        @velocity = 0
-      end
+    key_mapping = {:run => Gosu::Button::KbRight}
+    
+    key_mapping.each do |function, key|
+      method = down ? "press_#{function}" : "release_#{function}"
+      self.send method if self.methods.include? method
     end
   end
 end
