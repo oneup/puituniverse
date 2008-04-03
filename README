@@ -15,5 +15,9 @@ sudo gem install gosu
     Florian Hufsky
     mailto://hello@geeq.at
 
+  cmod
+    Paul Regl
+    http://cmod.at
+    contributed the Busk_3x3 Font (please don't use in other projects without his consent)
 
 (cc) you and me and everyone we know
