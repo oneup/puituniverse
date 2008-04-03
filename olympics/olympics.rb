@@ -13,9 +13,9 @@ class OlympicsGame < ActiveGame
 
     $level = Level.new
     @objects << $level
-    @player = CpuPlayer.new "jack", 0
-    @player = CpuPlayer.new "jack", 1
-    @player = CpuPlayer.new "jack", 2
+    @objects << CpuPlayer.new("jack", 0)
+    @objects << CpuPlayer.new("jack", 1)
+    @objects << CpuPlayer.new("jack", 2)
     @player = Player.new "jack", 3
     @objects << @player
   end
@@ -172,7 +172,8 @@ class Player < Character
     key_mapping = {:run => Gosu::Button::KbRight}
     
     key_mapping.each do |function, key|
-      method =  ? "press_#{function}" : "release_#{function}"
+      next unless id == key
+      method =  down ? "press_#{function}" : "release_#{function}"
       self.send method if self.methods.include? method
     end
   end
@@ -184,7 +185,7 @@ end
 
 class CpuPlayer < Character
   def update
-    if probability(0.5)
+    if probability(0.02) # problemy hack: different fps will generate different speeded players. solution: limit game fps to 60 (NTSC)
       run!
     end
     

@@ -81,6 +81,6 @@ class String
   end
 end
 
-def probability pc
-  rand < pc
+def probability p
+  rand < p
 end
