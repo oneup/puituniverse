@@ -63,10 +63,20 @@ class String
   end
   
   def classify
-    self.capitalize # TODO: make bla_foo into BlaFoo
+    camelize(self.sub(/.*\./, ''))
+  end
+  
+  def camelize(lower_case_and_underscored_word, first_letter_in_uppercase = true)
+    return camelize(self) unless lower_case_and_underscored_word
+
+    if first_letter_in_uppercase
+      lower_case_and_underscored_word.to_s.gsub(/\/(.?)/) { "::" + $1.upcase }.gsub(/(^|_)(.)/) { $2.upcase }
+    else
+      lower_case_and_underscored_word.first + camelize(lower_case_and_underscored_word)[1..-1]
+    end
   end
   
   def instantiate
-    Kernel.const_get(self.capitalize)
+    Kernel.const_get(self.classify)
   end
 end

@@ -17,7 +17,8 @@ end
 $game_name = ARGV[0] || $config['default_game']
 
 # PLAY!
-$game_class = $game_name.instantiate rescue quit("Your game class needs to be called #{$game_name.classify}")
+class_name = "#{$game_name.capitalize}_game"
+$game_class = class_name.instantiate #rescue quit("Your game class needs to be called #{class_name}")
   
 $game = $game_class.new
 $game.show

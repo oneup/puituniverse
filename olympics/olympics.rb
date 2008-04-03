@@ -5,7 +5,7 @@ module Z
 end
 
 
-class Olympics < ActiveGame
+class OlympicsGame < ActiveGame
   resolution [160*4, 100*4]
 
   def setup
@@ -26,6 +26,9 @@ class Olympics < ActiveGame
 
   def draw
     @objects.each {|o| o.draw }
+    
+    #"root/font/Busk_3x3pixel_fin".ttf(12)
+    "Helvetica".ttf(24).draw("hello", 0,0,0)    
   end
   
   def button_down id
