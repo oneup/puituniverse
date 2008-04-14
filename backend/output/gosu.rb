@@ -1,4 +1,6 @@
-class ActiveGame < Gosu::Window
+require 'gosu'
+
+class Window < Gosu::Window
   @@fullscreen = false
 
   def self.resolution r
@@ -33,5 +35,22 @@ class ActiveGame < Gosu::Window
 
   def button_up id
     @player.on_button false, id
+  end
+end
+
+
+class Image < Gosu::Image
+  def initialize file_name
+    raise "Image #{file_name} not found!" unless file_name.is_file?
+    super($window, file_name, true)
+  end
+end
+
+class Font < Gosu::Font
+  def initialize filename, size
+    super($window, filename, size)
+    
+    # hacketyhack: gosu font loading doesn't throw an error if it failed, so we do
+    text_width("test") rescue raise "Unable to load font #{filename}"
   end
 end

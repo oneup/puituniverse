@@ -9,7 +9,11 @@ def quit reason=nil
 end
 
 def require_all folder
-  folder.dir.each do |file|
+  dir = folder.dir
+  raise "no directory #{folder} found" unless dir
+
+  dir.each do |file|
+    next unless file
     require("#{folder}/#{file}") if file.ends_with? ".rb"
   end
 end
@@ -23,6 +27,9 @@ end
 class String
   def dir
     Dir.new(self)
+    #files = []
+    #dir.each {|f| files << f }
+    #files
   end
   
   def is_dir?
@@ -83,4 +90,15 @@ end
 
 def probability p
   rand < p
+end
+
+def repl
+  # thx mike http://mike-burns.blogspot.com/2005/06/ruby-repl.html
+  print "exc"
+  while true
+    '> '.display
+    gets.each do | e |
+      puts(eval(e))
+    end
+  end
 end

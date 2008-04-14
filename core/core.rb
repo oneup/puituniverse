@@ -1,1 +1,0 @@
-$config = "core/core".yml
