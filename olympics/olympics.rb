@@ -27,18 +27,16 @@ class OlympicsGame < Game
   def draw
     @objects.each {|o| o.draw }
     
-    #"root/font/Busk_3x3pixel_fin".ttf(12)
-    "Helvetica".ttf(24).draw("hello", 0,0,0)    
+    "root/font/Busk_3x3pixel_fin".ttf(12).draw("hello", 0,0,0)    
+    #{}"Helvetica".ttf(24).draw("hello", 0,0,0)    
   end
   
   def button_down id
-    close if id == Gosu::Button::KbEscape or id == 12 # "q" => hackety hack
-      
-    @player.on_button true, id
+    super
   end
   
   def button_up id
-    @player.on_button false, id
+    super
   end
 end
 
