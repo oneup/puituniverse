@@ -1,4 +1,6 @@
 class Gameobject  
+  attr_accessor :x, :y
+  
   def level
     $level
   end

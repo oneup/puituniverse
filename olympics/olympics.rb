@@ -1,7 +1,7 @@
 module Z
   Background = 0
   Tracks = 1
-  UI = 10
+  GUI = 10
 end
 
 
@@ -27,7 +27,7 @@ class OlympicsGame < Game
   def draw
     @objects.each {|o| o.draw }
     
-    "root/font/Busk_3x3pixel_fin".ttf(12).draw("< you", @player.x,@player.y-10,0)
+    "root/font/Busk_3x3pixel_fin".ttf(3*10).draw("you >", @player.x-4*25, 320, Z::GUI)
     #{}"Helvetica".ttf(24).draw("hello", 0,0,0)    
   end
   
@@ -110,6 +110,10 @@ end
 class Character < Gameobject
   attr_reader :x, :track_no, :jump_offset, :is_jumping, :name
 
+  def y
+    level.track_draw_y_offset track_no
+  end
+  
   @@run_speed = 3.0
   @@friction = 0.2
 
