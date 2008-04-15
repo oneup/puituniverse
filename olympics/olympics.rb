@@ -27,7 +27,7 @@ class OlympicsGame < Game
   def draw
     @objects.each {|o| o.draw }
     
-    "root/font/Busk_3x3pixel_fin".ttf(12).draw("hello", 0,0,0)    
+    "root/font/Busk_3x3pixel_fin".ttf(12).draw("< you", @player.x,@player.y-10,0)
     #{}"Helvetica".ttf(24).draw("hello", 0,0,0)    
   end
   
