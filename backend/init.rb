@@ -4,4 +4,3 @@ $config = $config_file.yml
 
 # initialize desired output handler (graphics, sound, input, magick, ...)
 require "backend/output/#{$config['output']}"
-Game = Window

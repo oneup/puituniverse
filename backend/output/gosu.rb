@@ -11,30 +11,24 @@ class Window < Gosu::Window
     @@fullscreen = f
   end
 
-
   def initialize
-    super(@@resolution[0], @@resolution[1], @@fullscreen)
+    super(@@resolution[0], @@resolution[1], @@fullscreen) # from Game
     self.caption = "Puit #{$game_name}"
     $window = self
-    setup
   end
 
-  def update
-    @objects.each {|o| o.update }
+  def update # overwritten by game
   end
 
-  def draw
-    @objects.each {|o| o.draw }
+  def draw # overwritten by game
   end
 
   def button_down id
-    close if id == Gosu::Button::KbEscape or id == 12 # "q" => hackety hack
-    
-    @player.on_button true, id
+    on_button map_button(id)
   end
 
-  def button_up id
-    @player.on_button false, id
+  def map_button id
+    id # todo map from Gosu::Button to Button
   end
 end
 

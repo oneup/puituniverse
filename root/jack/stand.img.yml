@@ -1,0 +1,13 @@
+setup:
+ x: "black" # 255, 255, 255 0xffffff / 0xfff
+ o: "white" #  #000000 / #000
+
+stand:
+- " xxxx"
+- " xoxo"
+- " xxxx"
+- "xxxx "
+- "xxxx "
+- "xxxx "
+- " xxx "
+- " x x "
