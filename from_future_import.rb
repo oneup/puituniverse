@@ -18,6 +18,14 @@ def require_all folder
   end
 end
 
+def require_package folder
+  # slightly python-y packages. init.rb is required first, then everything else is required
+  init_file = "#{folder}/init.rb"
+  require init_file if init_file.is_file?
+  require_all folder
+end
+
+
 class NilClass
   def empty?
     return true

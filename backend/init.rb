@@ -2,5 +2,5 @@
 $config_file = "backend/config"
 $config = $config_file.yml
 
-# initialize desired output handler (graphics, sound, input, magick, ...)
+# initialize desired [graphics, sound, input, magic] handler. eg: gosu (desktop), hotruby(flash, web)
 require "backend/output/#{$config['output']}"

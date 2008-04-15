@@ -3,16 +3,10 @@
 # RUBY PREREQUISITS
 require "rubygems"
 require "yaml"
-require "from_future_import.rb"  # gemify this
-require "activeresource.rb"      # gemify this  
-
-def require_package folder
-  init_file = "#{folder}/init.rb"
-  require init_file if init_file.is_file?
-  require_all folder
-end
+require "from_future_import.rb"  # gemify this !
+require "activeresource.rb"      # gemify this !
     
-require "backend/init"           # core setup routine is special, so the usual each_dir require_all loop doesn't work
+begin
 
 # LOAD THE UNIVERSE
 ".".each_dir do |bundle|
@@ -29,10 +23,11 @@ $game_class = class_name.instantiate #rescue quit("Your game class needs to be c
 $game = $game_class.new
 $game.show
 
+# get this exception REPL shell running
 #rescue Exception => e  
 #  println "GRR, EXCEPTION!"
 #  println e.message  
 #  println e.backtrace
 #  
 #  repl
-#end
+end
