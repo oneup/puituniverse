@@ -28,13 +28,14 @@ class EnemyShip < Gameobject
   
   def initialize x, y, row
     @row = row
-    @velocity = 0.5
+    @velocity = 0.2
     @x, @y = x, y
     set_sprite("spaceinvaders/Space Invader#{@row}")
   end
   
   def change_direction_and_go_to_next_row
     @velocity = -@velocity
+    @velocity *= 1.2
     @y += sprite.height + 10
   end
   
@@ -42,10 +43,9 @@ class EnemyShip < Gameobject
     @x += @velocity
 
     if right > $game.width or left < 0
-      # one space invader touched the right or left border!!!      
-      # move all in this row
+      # one space invader touched the right or left border!!!
       for ship in $game.all(EnemyShip)
-        ship.change_direction_and_go_to_next_row if ship.row == row
+        ship.change_direction_and_go_to_next_row
       end
     end
     
