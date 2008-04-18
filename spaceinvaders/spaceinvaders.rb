@@ -24,31 +24,61 @@ end
 # now: other ships :)
 
 class EnemyShip < Gameobject    
+  attr_reader :row
+  
   def initialize x, y, row
     @row = row
-    @x = x
-    @y = y
+    @velocity = 0.5
+    @x, @y = x, y
     set_sprite("spaceinvaders/Space Invader#{@row}")
   end
   
+  def change_direction_and_go_to_next_row
+    @velocity = -@velocity
+    @y += sprite.height + 10
+  end
+  
   def update
-    # todo: jump every 10 ticks
+    @x += @velocity
+
+    if right > $game.width or left < 0
+      # one space invader touched the right or left border!!!      
+      # move all in this row
+      for ship in $game.all(EnemyShip)
+        ship.change_direction_and_go_to_next_row if ship.row == row
+      end
+    end
+    
+    # kill player?
+    for ship in $game.all(PlayerShip)
+      if ship.collides_with? self
+        ship.die
+      end
+    end
+    
+    # shoot
+    if probability(0.0005)
+      shot = Shot.new @x, @y+sprite.height, +4, PlayerShip
+      $game.objects << shot
+    end
+    
   end
 end
 
 class Shot < Gameobject
-  def initialize x, y
-    @x = x
-    @y = y
+  def initialize x, y, vel_y, target
+    @x, @y, @vel_y = x, y, vel_y
+    @target = target
     set_sprite "spaceinvaders/Shot1"
   end
   
   def update
-    @y -= 5
+    @y += @vel_y
     
-    $game.all(EnemyShip).each do |enemy|
+    $game.all(@target).each do |enemy|
       if self.collides_with? enemy # todo: why doesn't coldec work?
         enemy.die
+        die
       end
     end
   end
@@ -78,7 +108,7 @@ class PlayerShip < Gameobject
   
   def shoot pressed
     if pressed
-      shot = Shot.new @x, @y - self.height
+      shot = Shot.new @x, @y - self.height, -6, EnemyShip
       $game.objects << shot
     end
   end
