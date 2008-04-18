@@ -1,13 +1,38 @@
+class Object
+  attr_accessor :x, :y, :width, :height
+  
+  def left() x; end
+  def right() x+width; end
+  def top() y; end
+  def bottom() y+height; end
+
+  def outside? object
+    not object.contains?(self)
+  end
+  
+  def set_boundingbox x,y,w,h
+    @x, @y, @width, @height = x, y, w, h
+  end
+  
+  def contains? other
+     return( (self.left <= other.left) and
+          (self.right >= other.right) and
+         (self.bottom <= other.bottom) and
+         (self.top >= other.top))
+  end
+end
+
 # todo: refactor me
 class Game < Window
   resolution [320, 240]
-
+  
   def self.run
     self.new.show
   end
   
   def initialize
     super
+    set_boundingbox(0,0,self.width,self.height)
     $game = self
     @objects = []
     setup

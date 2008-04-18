@@ -16,6 +16,10 @@ end
 # CODE GAMES!
 $game_name = ARGV[0] || $config['default_game']
 
+if $game_name.ends_with? "/"
+  $game_name = $game_name[0...$game_name.size-1]
+end
+
 println "no game #{$game_name} found" and exit unless $game_name.is_folder?
 
 # PLAY!

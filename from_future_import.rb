@@ -104,6 +104,16 @@ class String
   end
 end
 
+class Hash
+  def keys
+    self.collect {|key, value| key}
+  end
+  
+  def values
+    self.collect {|key, value| value}
+  end
+end
+
 def probability p
   rand < p
 end
