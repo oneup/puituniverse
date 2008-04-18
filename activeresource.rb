@@ -13,7 +13,7 @@ class String
   
   def ttf size=12
     ttf = "#{self}.ttf"
-    return Font.cache(ttf, size) if ttf.is_file? # "root/font/Busk.ttf"
+    return Font.cache(ttf, size) if ttf.is_file? # "puit/font/Busk.ttf"
     Font.cache(self, size) # "Helvetica"
   end
   
@@ -47,8 +47,8 @@ class Animation
     raise "error while loading animation config #{file_name}"
   end
   
-  def draw x, y, order
-    @frames[Gosu::milliseconds / 100 % @frames.size][1].draw(x,y,order)
+  def draw x, y, order, zoom_x=1, zoom_y=1
+    @frames[Gosu::milliseconds / 100 % @frames.size][1].draw(x, y, order, zoom_x, zoom_y)
   end
 end
 

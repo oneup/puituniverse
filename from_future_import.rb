@@ -25,6 +25,13 @@ def require_package folder
   require_all folder
 end
 
+class Range
+  def limit value
+    return first if value < first
+    return last if value > last
+    return value
+  end
+end
 
 class NilClass
   def empty?

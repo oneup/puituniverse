@@ -1,3 +1,5 @@
+#thx http://code.google.com/p/gosu/wiki/RubyReference
+
 require 'gosu'
 
 class Window < Gosu::Window

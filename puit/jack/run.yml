@@ -1,0 +1,5 @@
+frames:
+  - duration: 1
+    image: "puit/jack/stand.png"
+  - duration: 1
+    image: "puit/jack/jump.png"

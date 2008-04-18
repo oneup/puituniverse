@@ -27,7 +27,7 @@ class OlympicsGame < Game
   def draw
     @objects.each {|o| o.draw }
     
-    "root/font/Busk_3x3pixel_fin".ttf(3*10).draw("you >", @player.x-4*25, 320, Z::GUI)
+    "puit/font/Busk_3x3pixel_fin".ttf(3*10).draw("you >", @player.x-4*25, 320, Z::GUI)
     #{}"Helvetica".ttf(24).draw("hello", 0,0,0)    
   end
   
@@ -161,7 +161,7 @@ class Character < Gameobject
     end
     
     x, y = level.draw_offset(@x, @track_no)
-    "root/#{name}/#{action}".img.draw(x, y + @jump_offset, Z::Tracks + @track_no + 1)
+    "puit/#{name}/#{action}".img.draw(x, y + @jump_offset, Z::Tracks + @track_no + 1)
   end
 end
 

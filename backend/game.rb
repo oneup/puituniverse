@@ -1,9 +1,15 @@
 # todo: refactor me
 class Game < Window
+  resolution [320, 240]
+  
   def initialize
     super
+    @objects = []
     setup
-    @objects ||= []
+  end
+
+  def setup
+    #overwrite me
   end
 
   def update

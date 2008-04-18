@@ -16,9 +16,11 @@ end
 # CODE GAMES!
 $game_name = ARGV[0] || $config['default_game']
 
+println "no game #{$game_name} found" and exit unless $game_name.is_folder?
+
 # PLAY!
 class_name = "#{$game_name.capitalize}_game"
-$game_class = class_name.instantiate #rescue quit("Your game class needs to be called #{class_name}")
+$game_class = class_name.instantiate rescue quit("Your game class needs to be called #{class_name}")
 
 $game = $game_class.new
 $game.show
