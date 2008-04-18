@@ -74,10 +74,10 @@ class Shot < Gameobject
   
   def update
     @y += @vel_y
-    
-    $game.all(@target).each do |enemy|
-      if self.collides_with? enemy # todo: why doesn't coldec work?
-        enemy.die
+
+    $game.all(@target).each do |object|
+      if self.collides_with? object
+        object.die
         die
       end
     end
@@ -85,18 +85,23 @@ class Shot < Gameobject
 end
 
 class PlayerShip < Gameobject
+  @@speed = 5
+
   def initialize
     set_sprite("spaceinvaders/Shooter")
+
     @x = 0
     @y = $game.height - sprite.height - 10 # 10 pixels free to bottom
     @vel_x = 0
     @vel_y = 0
     
-    map_keys(Gosu::Button::KbLeft => :move_left,
-             Gosu::Button::KbRight => :move_right,
-             Gosu::Button::GpLeft => :move_left,
-             Gosu::Button::GpRight => :move_right,
-             Gosu::Button::KbSpace => :shoot)
+
+
+    map_keys(Gosu::Button::KbLeft   => :move_left,
+             Gosu::Button::KbRight  => :move_right,
+             Gosu::Button::GpLeft   => :move_left,
+             Gosu::Button::GpRight  => :move_right,
+             Gosu::Button::KbSpace  => :shoot)
   end
   
   def update
@@ -114,12 +119,12 @@ class PlayerShip < Gameobject
   end
   
   def move_left pressed
-    @vel_x = -5 if pressed
+    @vel_x = -@@speed if pressed
     @vel_x = 0 if not pressed and not is_pressed? :move_right
   end
   
   def move_right pressed
-    @vel_x = 5 if pressed
+    @vel_x = @@speed if pressed
     @vel_x = 0 if not pressed and not is_pressed? :move_left
   end
 end
