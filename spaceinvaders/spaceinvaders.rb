@@ -4,31 +4,40 @@
 
 class SpaceinvadersGame < Game
   def setup
-    print "LOL"
     @objects << PlayerShip.new
-    
-    x = 10
+
     y = 10
-    x_pitch = (EnemyShip.img.width + 10)
-    while (x+x_pitch) < width-10
-      @objects << EnemyShip.new(x, y)
-      x += x_pitch
+    6.times do |row|
+      x = 10
+      while true
+        enemy = EnemyShip.new(x, y, row+1)
+        #break if enemy.outside? $game
+        @objects << enemy
+        x += enemy.width + 10
+        break if x + enemy.width > $game.width
+      end
+      y += enemy.height + 10
     end
   end
 end
 
 # now: other ships :)
 
-class EnemyShip < Gameobject
-  def self.img
-    @@img ||= "spaceinvaders/ship/enemy".img
+class EnemyShip < Gameobject    
+  def img
+    @img ||= "spaceinvaders/Space Invader#{@row}".img
   end
   
-  def img
-    @@img
+  def width
+    img.width
+  end
+  
+  def height
+    img.height
   end
 
-  def initialize x, y
+  def initialize x, y, row
+    @row = row
     @x = x
     @y = y
   end
@@ -44,12 +53,16 @@ end
 
 class PlayerShip < Gameobject
   def initialize
-    @image = "spaceinvaders/ship/enemy".img
-
+    @img = "spaceinvaders/Shooter".img
     @x = 0
-    @y = $game.height - @image.height - 10 # 10 pixels free to bottom
+    @y = $game.height - @img.height - 10 # 10 pixels free to bottom
     @vel_x = 0
     @vel_y = 0
+    
+    map_keys(Gosu::Button::KbLeft => :move_left,
+      Gosu::Button::KbRight => :move_right,
+      Gosu::Button::GpLeft => :move_left,
+      Gosu::Button::GpRight => :move_right)
   end
   
   def update    
@@ -59,23 +72,17 @@ class PlayerShip < Gameobject
     @y = (0..$game.height).limit @y
   end
   
-  def on_button down, id
-    if id == Gosu::Button::GpLeft or id == Gosu::Button::KbLeft # fixme. maket it "button.is :left"
-      if down
-        @vel_x = -10
-      else
-        @velx = 0
-      end
-    elsif id == Gosu::Button::GpRight or id == Gosu::Button::KbRight
-      if down
-        @vel_x = 10
-      else
-        @vel_x = 0
-      end
-    end
+  def move_left pressed
+    @vel_x = -10 if pressed
+    @vel_x = 0 if not pressed and not is_pressed? :move_right
+  end
+  
+  def move_right pressed
+    @vel_x = 10 if pressed
+    @vel_x = 0 if not pressed and not is_pressed? :move_left
   end
   
   def draw
-    @image.draw(@x, @y, 0)
+    @img.draw(@x, @y, 0)
   end
 end

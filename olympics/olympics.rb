@@ -166,22 +166,13 @@ class Character < Gameobject
 end
 
 class Player < Character
-  def update
-    super
+  def initialize a,b
+    super a,b
+    map_keys(Gosu::Button::KbRight => :press_run)
   end
-  
-  def on_button down, id
-    key_mapping = {:run => Gosu::Button::KbRight}
     
-    key_mapping.each do |function, key|
-      next unless id == key
-      method =  down ? "press_#{function}" : "release_#{function}"
-      self.send method if self.methods.include? method
-    end
-  end
-  
-  def press_run
-    run!
+  def press_run pressed
+    run! if pressed
   end  
 end
 
