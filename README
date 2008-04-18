@@ -7,7 +7,8 @@ and game programming language
 == How to Run
 
 sudo gem install gosu
-./run.rb
+./play.rb
+./play.rb spaceinvaders
 
 
 == Since 2008
