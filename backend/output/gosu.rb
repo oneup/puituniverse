@@ -40,6 +40,29 @@ class Image < Gosu::Image
     raise "Image #{file_name} not found!" unless file_name.is_file?
     super($window, file_name, true)
   end
+  
+  def draw(x,y,z=0,zoom_x=1,zoom_y=1)
+
+    z = 0
+    zoom_x = 1
+    zoom_y = 1
+    
+    args = []
+    if args.size > 0
+      params = args.first
+      if params[:z]
+        z = params[:z]
+      end
+      if params[:zoom]
+        zoom_x = params[:zoom]
+        zoom_y = zoom_x
+      end
+      zoom_x = params[:zoom_x] if params[:zoom_x]
+      zoom_y = params[:zoom_y] if params[:zoom_y]
+    end
+ 
+    super(x,y,z,zoom_x,zoom_y)
+  end
 end
 
 class Font < Gosu::Font

@@ -1,5 +1,7 @@
 class Gameobject  
-  #attr_accessor x,y,w,h from object
+  include Collideable
+
+  attr_accessor :x, :y, :width, :height
 
   def map_keys mapping
     @key_mapping = mapping
@@ -16,6 +18,34 @@ class Gameobject
   end
   
   def update
+  end
+  
+  def die
+    @is_dead = true
+  end
+  
+  def is_dead?
+    return @is_dead
+  end
+  
+  def set_sprite name
+    @sprite = name.img
+  end
+
+  def img
+    sprite
+  end
+
+  def sprite
+    @sprite
+  end
+
+  def width
+    @sprite.width
+  end
+
+  def height
+    @sprite.height
   end
   
   def on_button down, id
@@ -40,5 +70,6 @@ class Gameobject
   end
   
   def draw
+    sprite.draw(@x, @y, 0) if sprite # meta fixme: set_sprite should recode the draw() function for this object
   end
 end
