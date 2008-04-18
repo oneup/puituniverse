@@ -1,9 +1,14 @@
 # todo: refactor me
 class Game < Window
   resolution [320, 240]
+
+  def self.run
+    self.new.show
+  end
   
   def initialize
     super
+    $game = self
     @objects = []
     setup
   end

@@ -1,4 +1,5 @@
 def println s
+  print "<nil>" if s.nil?
   print "#{s}\n"
   STDOUT.flush
 end
