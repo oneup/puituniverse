@@ -1,7 +1,7 @@
 # http://en.wikipedia.org/wiki/Shufflepuck_Cafe
 # thx http://youtube.com/watch?v=9pUmfxM9h54
 
-class ShufflepuitCafeGame < Game
+class ShufflepuitCafe < Game
   def setup
     @objects << Ball.new
   end

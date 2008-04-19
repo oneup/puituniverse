@@ -2,7 +2,7 @@
 # cc oneup
 # thx kingpepe
 
-class SpaceinvadersGame < Game
+class Spaceinvaders < Game
   attr_accessor :player
 
   def setup

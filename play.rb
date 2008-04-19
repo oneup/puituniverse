@@ -23,8 +23,7 @@ end
 println "no game #{$game_name} found" and exit unless $game_name.is_folder?
 
 # PLAY!
-class_name = "#{$game_name.capitalize}_game"
-$game_class = class_name.instantiate rescue quit("Your game class needs to be called #{class_name}")
+$game_class = $game_name.classify.instantiate rescue quit("Your game class needs to be called #{class_name}")
 
 begin
   $game_class.run

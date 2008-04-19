@@ -5,7 +5,7 @@ module Z
 end
 
 
-class OlympicsGame < Game
+class Olympics < Game
   resolution [160*4, 100*4]
 
   def setup
