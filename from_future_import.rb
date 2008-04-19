@@ -26,6 +26,12 @@ def require_package folder
   require_all folder
 end
 
+class Object
+  def is? what
+    self == what
+  end
+end
+
 class Range
   def limit value
     return first if value < first

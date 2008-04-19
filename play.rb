@@ -26,7 +26,11 @@ println "no game #{$game_name} found" and exit unless $game_name.is_folder?
 class_name = "#{$game_name.capitalize}_game"
 $game_class = class_name.instantiate rescue quit("Your game class needs to be called #{class_name}")
 
-$game_class.run
+begin
+  $game_class.run
+rescue Exit => e
+  println "\nGAME OVER: #{e}\n"
+end
 
 # get this exception REPL shell running
 #rescue Exception => e  

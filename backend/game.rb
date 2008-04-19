@@ -1,3 +1,13 @@
+class Exit < Exception
+  def initialize reason
+    @reason = reason
+  end
+  
+  def to_s
+    @reason
+  end
+end
+
 # todo: refactor me
 class Game < Window
   attr_reader :objects
@@ -20,9 +30,17 @@ class Game < Window
   def all type # optimize? or: needed?
     @objects.map { |object| object if object.is_a?(type) }.compact
   end
+  
+  def count type
+    all(type).size
+  end
 
   def setup
     #overwrite me
+  end
+  
+  def exit reason
+    raise Exit.new(reason)
   end
 
   def update
@@ -37,7 +55,7 @@ class Game < Window
   end
   
   def button_down id
-    close if id == Gosu::Button::KbEscape or id == 12 # "q" => hackety hack remove gosu dependency
+    exit("ESC or Q") if id == Gosu::Button::KbEscape or id == 12 # hacketyhack for alt+q (gosu doesn't find this o_O)
     @objects.each {|o| o.on_button_down id }
   end
 
