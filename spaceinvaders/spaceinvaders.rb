@@ -104,14 +104,7 @@ class Shot < Gameobject
 end
 
 class PlayerShip < Gameobject
-  def score
-    @score || 0
-  end
-  
-  def set_score value
-    @score = value
-  end
-
+  attr_accessor :score
   @@speed = 5
   attr_accessor :score
 
@@ -125,8 +118,6 @@ class PlayerShip < Gameobject
     
     @score = 0
     
-
-
     map_keys(Gosu::Button::KbLeft   => :move_left,
              Gosu::Button::KbRight  => :move_right,
              Gosu::Button::GpLeft   => :move_left,
