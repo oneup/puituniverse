@@ -45,8 +45,12 @@ class Theroom < Game
       y += font.height
     end
   end
-  
+
   def font
-    "Lucida Grande".ttf($game.height/(@games.count))
+    @@font ||= begin
+      "Lucida Grande".ttf($game.height/(@games.count))
+    rescue
+      "Verdana".ttf($game.height/(@games.count)) # windows users only have Verdana. poor them :( :P
+    end
   end
 end

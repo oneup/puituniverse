@@ -15,7 +15,6 @@ class Window < Gosu::Window
 
   def initialize
     super(@@resolution[0], @@resolution[1], @@fullscreen) # from Game
-    self.caption = "Puit #{$game_name}"
     $window = self
   end
 

@@ -19,9 +19,12 @@ class Game < Window
     self.new.show
   end
   
+  # super needs to implement caption
+  
   def initialize
     super
     set_boundingbox(0,0,self.width,self.height)
+    self.caption = "Puit #{$game_name.classify}"
     $game = self
     @objects = []
     setup
