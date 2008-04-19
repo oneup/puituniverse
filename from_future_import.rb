@@ -110,6 +110,12 @@ class String
   end
 end
 
+class Array
+  def count
+    self.size
+  end
+end
+
 class Hash
   def keys
     self.collect {|key, value| key}
