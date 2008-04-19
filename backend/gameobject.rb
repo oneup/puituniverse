@@ -3,7 +3,7 @@ class Gameobject
 
   attr_accessor :x, :y, :width, :height
 
-  def map_keys mapping
+  def set_keys mapping
     @key_mapping = mapping
     @is_pressed = {}
     @key_mapping.each { |key, method| @is_pressed[method] = false }

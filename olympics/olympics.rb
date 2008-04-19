@@ -168,7 +168,7 @@ end
 class Player < Character
   def initialize a,b
     super a,b
-    map_keys(Gosu::Button::KbRight => :press_run)
+    set_keys(Gosu::Button::KbRight => :press_run)
   end
     
   def press_run pressed

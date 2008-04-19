@@ -42,11 +42,6 @@ class Image < Gosu::Image
   end
   
   def draw(x,y,z=0,zoom_x=1,zoom_y=1)
-
-    z = 0
-    zoom_x = 1
-    zoom_y = 1
-    
     args = []
     if args.size > 0
       params = args.first

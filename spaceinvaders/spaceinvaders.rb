@@ -119,7 +119,7 @@ class PlayerShip < Gameobject
     @score = 0
     @lives = 3
     
-    map_keys(Gosu::Button::KbLeft   => :move_left,
+    set_keys(Gosu::Button::KbLeft   => :move_left,
              Gosu::Button::KbRight  => :move_right,
              Gosu::Button::GpLeft   => :move_left,
              Gosu::Button::GpRight  => :move_right,
