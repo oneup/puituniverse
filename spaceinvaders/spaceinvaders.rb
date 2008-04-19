@@ -117,6 +117,7 @@ class PlayerShip < Gameobject
     @vel_y = 0
     
     @score = 0
+    @lives = 3
     
     map_keys(Gosu::Button::KbLeft   => :move_left,
              Gosu::Button::KbRight  => :move_right,
@@ -134,7 +135,11 @@ class PlayerShip < Gameobject
   
   def draw
     super
-    "puit/font/Busk_3x3pixel_fin".ttf.draw("#{@score} points",10, 10, 0)
+    font.draw("#{@score} points   #{@lives} lives", 10, 10, 0)
+  end
+  
+  def font
+    "puit/font/Busk_3x3pixel_fin".ttf
   end
   
   def shoot pressed
@@ -155,7 +160,11 @@ class PlayerShip < Gameobject
   end
   
   def die
-    super
-    $game.exit("Player died")
+    @lives -= 1
+
+    if @lives == 0
+      super
+      $game.exit("Player died")
+    end
   end
 end
