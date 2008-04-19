@@ -3,34 +3,48 @@
 # thx kingpepe
 
 class SpaceinvadersGame < Game
-  def setup
-    @objects << PlayerShip.new
+  attr_accessor :player
 
-    y = 10
-    6.times do |row|
-      x = 10
-      while true
-        enemy = EnemyShip.new(x, y, row+1)
-        #break if enemy.outside? $game
+  def setup
+    @player = PlayerShip.new
+    @objects << @player
+
+    row = 0
+    EnemyShip.rows.times do |row|
+      x = 10 # fixme: calculate from EnemyShip.rows
+      EnemyShip.cols.times do
+        enemy = EnemyShip.new(x, row)
         @objects << enemy
-        x += enemy.width + 10
-        break if x + enemy.width > $game.width
+        x += (enemy.width + 10)
       end
-      y += enemy.height + 10
+      row += 1
     end
   end
 end
 
 # now: other ships :)
-
-class EnemyShip < Gameobject    
-  attr_reader :row
+class EnemyShip < Gameobject
+#  set :rows, 6
+#  set :cols, 24
   
-  def initialize x, y, row
+  def self.rows
+    6
+  end
+  
+  def self.cols
+    $game.width / ("spaceinvaders/Space Invader1".img.width+10)
+  end
+  
+  def points
+    (1 + EnemyShip.rows - @row) * 10
+  end
+  
+  def initialize x, row
+    set_sprite "spaceinvaders/Space Invader#{row+1}"
+
     @row = row
     @velocity = 0.2
-    @x, @y = x, y
-    set_sprite("spaceinvaders/Space Invader#{@row}")
+    @x, @y = x, 10 + (@row+1)*(sprite.height+10)
   end
   
   def change_direction_and_go_to_next_row
@@ -42,18 +56,15 @@ class EnemyShip < Gameobject
   def update
     @x += @velocity
 
-    if right > $game.width or left < 0
-      # one space invader touched the right or left border!!!
+    if right > $game.width or left < 0 # one space invader touched the right or left border!!!
       for ship in $game.all(EnemyShip)
         ship.change_direction_and_go_to_next_row
       end
     end
     
     # kill player?
-    for ship in $game.all(PlayerShip)
-      if ship.collides_with? self
-        ship.die
-      end
+    if $game.player.collides_with? self
+      $game.player.die
     end
     
     # shoot
@@ -61,7 +72,13 @@ class EnemyShip < Gameobject
       shot = Shot.new @x, @y+sprite.height, +4, PlayerShip
       $game.objects << shot
     end
+  end
+  
+  def die
+    $game.player.score += self.points
+    super
     
+    $game.exit("Player won") if $game.count(EnemyShip) == 0
   end
 end
 
@@ -71,6 +88,8 @@ class Shot < Gameobject
     @target = target
     set_sprite "spaceinvaders/Shot1"
   end
+  
+  # todo: build a class that automatically adds accessors for everything. @owner suxx0rs
   
   def update
     @y += @vel_y
@@ -85,7 +104,16 @@ class Shot < Gameobject
 end
 
 class PlayerShip < Gameobject
+  def score
+    @score || 0
+  end
+  
+  def set_score value
+    @score = value
+  end
+
   @@speed = 5
+  attr_accessor :score
 
   def initialize
     set_sprite("spaceinvaders/Shooter")
@@ -94,6 +122,8 @@ class PlayerShip < Gameobject
     @y = $game.height - sprite.height - 10 # 10 pixels free to bottom
     @vel_x = 0
     @vel_y = 0
+    
+    @score = 0
     
 
 
@@ -111,6 +141,11 @@ class PlayerShip < Gameobject
     @y = (0..$game.height).limit @y
   end
   
+  def draw
+    super
+    "puit/font/Busk_3x3pixel_fin".ttf.draw("#{@score} points",10, 10, 0)
+  end
+  
   def shoot pressed
     if pressed
       shot = Shot.new @x, @y - self.height, -6, EnemyShip
@@ -126,5 +161,10 @@ class PlayerShip < Gameobject
   def move_right pressed
     @vel_x = @@speed if pressed
     @vel_x = 0 if not pressed and not is_pressed? :move_left
+  end
+  
+  def die
+    super
+    $game.exit("Player died")
   end
 end
