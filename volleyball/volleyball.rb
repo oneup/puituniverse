@@ -65,7 +65,7 @@ class VolleyballBall < VolleyballGameobject
   
   def touch_ground
     super
-    @vel_y = @vel_y * (-0.8)
+    @vel_y = @vel_y * (-0.5)
   end
   
   def update
@@ -108,25 +108,25 @@ class VolleyballPlayer < VolleyballGameobject
     @vel_y = 0
     
     @score = 0
-    @lives = 3
     
     if side == :right
-      set_keys(Gosu::Button::KbLeft   => :move_left,
+      set_keys(Gosu::Button::KbLeft  => :move_left,
               Gosu::Button::KbRight  => :move_right,
               Gosu::Button::GpLeft   => :move_left,
               Gosu::Button::GpRight  => :move_right,
-              Gosu::Button::KbUp  => :jump,
-              Gosu::Button::GpUp  => :jump)
+              Gosu::Button::KbUp     => :jump,
+              Gosu::Button::GpUp     => :jump)
     else
-      set_keys(Gosu::Button::KbLeftControl   => :move_left,
-              Gosu::Button::KbLeftAlt  => :move_right,
-              Gosu::Button::KbLeftShift  => :jump)
+      set_keys(Gosu::Button::KbLeftControl  => :move_left,
+              Gosu::Button::KbLeftAlt       => :move_right,
+              Gosu::Button::KbLeftShift     => :jump)
     end
   end
     
   def draw
     super
-    font.draw("#{@score} points   #{@lives} lives", 10, 10, 0)
+    x = @side == :left ? 10 : $game.width - 150
+    font.draw("#{@score} points", x, 10, 0)
   end
   
   def font
@@ -151,14 +151,5 @@ class VolleyballPlayer < VolleyballGameobject
   def move_right pressed
     @vel_x = @@speed if pressed
     @vel_x = 0 if not pressed and not is_pressed? :move_left
-  end
-  
-  def die
-    @lives -= 1
-
-    if @lives == 0
-      super
-      $game.exit("Player died")
-    end
-  end
+  end  
 end
