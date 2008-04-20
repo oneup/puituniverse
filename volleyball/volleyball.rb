@@ -1,15 +1,36 @@
 # entry for LD11
 
+class Image
+  alias_method :old_draw, :draw
+  def draw(x=0,y=0,z=0)
+    old_draw(x,y,z)
+  end
+end
+
+class Fixnum
+  def px
+    self*4
+  end
+end
+
 class Volleyball < Game
+  resolution [160*4, 100*4]
+
   def setup
     @objects << VolleyballPlayer.left
     @objects << VolleyballPlayer.right
     @objects << VolleyballBall.new
 #    @objects << Wall.new
   end
+  
+  def draw
+    "volleyball/background".img.draw()
+    super
+  end
 end
 
 class VolleyballGameobject < Gameobject
+  attr_accessor :vel_x, :vel_y
   def gravity
     -0.25
   end
@@ -41,14 +62,14 @@ class VolleyballGameobject < Gameobject
     $game.width - sprite.height
   end
   def bottom_border
-    $game.height - sprite.height - 10
+    $game.height - sprite.height - (7.px)
   end
 end
 
 class VolleyballBall < VolleyballGameobject
   def initialize
     @x = $game.width/2
-    @y = 10
+    @y = 5.px
     @vel_x = 5
     @vel_y = 0
     set_sprite "puit/jack/stand"
@@ -71,11 +92,11 @@ class VolleyballBall < VolleyballGameobject
   def update
     super
 
-    $game.all(VolleyballPlayer).each do |object|
-      if object.collides_with? self
+    $game.all(VolleyballPlayer).each do |player|
+      if player.collides_with? self
         @vel_y = -10
-        bounce_x
-        self.bottom = object.top
+        @vel_x = player.vel_x * 1.5
+        self.bottom = player.top
       end
     end
   end
@@ -100,10 +121,10 @@ class VolleyballPlayer < VolleyballGameobject
     if side == :left
       @x = 10
     else
-      @x = $game.width - sprite.width - 10
+      @x = $game.width - sprite.width - 1.px
     end
 
-    @y = $game.height - sprite.height - 10 # 10 pixels free to bottom
+    @y = bottom_border
     @vel_x = 0
     @vel_y = 0
     
