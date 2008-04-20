@@ -11,6 +11,20 @@ class VolleyballPlayer < VolleyballGameobject
     self.new :right
   end
   
+  def controller side
+    {:right => {"left".key       => :move_left,
+                "right".key      => :move_right,
+                "left".gamepad   => :move_left,
+                "right".gamepad  => :move_right,
+                "up".key         => :jump,
+                "up".gamepad     => :jump},
+
+      :left => {"a".key      => :move_left,
+                "d".key      => :move_right,
+                "w".key      => :jump}
+    }[side]
+  end
+            
   def initialize side
     set_sprite("puit/jack/stand")
 
@@ -27,18 +41,7 @@ class VolleyballPlayer < VolleyballGameobject
     
     @score = 0
     
-    if side == :right
-      set_keys(Gosu::Button::KbLeft  => :move_left,
-              Gosu::Button::KbRight  => :move_right,
-              Gosu::Button::GpLeft   => :move_left,
-              Gosu::Button::GpRight  => :move_right,
-              Gosu::Button::KbUp     => :jump,
-              Gosu::Button::GpUp     => :jump)
-    else
-      set_keys(Gosu::Button::KbLeftControl  => :move_left,
-              Gosu::Button::KbLeftAlt       => :move_right,
-              Gosu::Button::KbLeftShift     => :jump)
-    end
+    set_keys controller(side)
   end
   
   def touch_ground
