@@ -4,15 +4,59 @@ class Puitvolley < Game
   def setup
     @objects << VolleyballPlayer.left
     @objects << VolleyballPlayer.right
-#    @objects << Ball.new
+    @objects << Volleyball.new
 #    @objects << Wall.new
   end
 end
 
-class VolleyballPlayer < Gameobject
+class VolleyballGameobject < Gameobject
+  def gravity
+    -0.25
+  end
+  
+  def update
+    @x += @vel_x
+    @y += @vel_y
+    
+    @vel_y -= gravity
+    
+    if @y > bottom_border
+      @y = bottom_border
+      @vel_y = 0
+    end
+    
+    @x = (0..$game.width-sprite.height).limit @x
+    @y = (0..$game.height-sprite.height).limit @y
+  end
+  
+  def bottom_border
+    $game.height - sprite.height - 10
+  end
+end
+
+class Volleyball < VolleyballGameobject
+  def initialize
+    @x = $game.width/2
+    @y = 10
+    @vel_x = 5
+    @vel_y = 0
+    set_sprite "puit/jack/stand"
+  end
+  
+  def update
+    super
+    $game.all(VolleyballPlayer).each do |object|
+      if object.collides_with? self
+        @vel_y = -10
+        @vel_x *= -1
+      end
+    end
+  end
+end
+
+class VolleyballPlayer < VolleyballGameobject
   attr_accessor :score
   @@speed = 5
-  attr_accessor :score
   
   def self.left
     self.new :left
@@ -50,30 +94,7 @@ class VolleyballPlayer < Gameobject
       #todo: set_keys CpuController irgendwie bla bla
     end
   end
-  
-  def gravity
-    -0.25
-  end
-  
-  def bottom_border
-    $game.height - sprite.height - 10
-  end
-  
-  def update
-    @x += @vel_x
-    @y += @vel_y
     
-    @vel_y -= gravity
-    
-    if @y > bottom_border
-      @y = bottom_border
-      @vel_y = 0
-    end
-    
-    @x = (0..$game.width-sprite.height).limit @x
-    @y = (0..$game.height-sprite.height).limit @y
-  end
-  
   def draw
     super
     font.draw("#{@score} points   #{@lives} lives", 10, 10, 0)
