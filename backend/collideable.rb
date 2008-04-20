@@ -4,6 +4,10 @@ module Collideable
   def right() x.to_f + width.to_f; end
   def top() y.to_f; end
   def bottom() y.to_f + height.to_f; end
+  
+  def bottom= value
+    x = value - height
+  end
 
   def outside? object
     not object.contains?(self)

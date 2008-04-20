@@ -43,12 +43,21 @@ class Volleyball < VolleyballGameobject
     set_sprite "puit/jack/stand"
   end
   
+  def bounce_x
+    @vel_x *= -1
+  end
+
   def update
     super
+    
+    if @x == 0 or @x == $game.width-sprite.height
+      bounce_x
+    end
+    
     $game.all(VolleyballPlayer).each do |object|
       if object.collides_with? self
         @vel_y = -10
-        @vel_x *= -1
+        bounce_x
       end
     end
   end
