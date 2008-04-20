@@ -128,11 +128,11 @@ class PlayerShip < Gameobject
     @score = 0
     @lives = 3
     
-    set_keys(Gosu::Button::KbLeft   => :move_left,
-             Gosu::Button::KbRight  => :move_right,
-             Gosu::Button::GpLeft   => :move_left,
-             Gosu::Button::GpRight  => :move_right,
-             Gosu::Button::KbSpace  => :shoot)
+    set_keys("left".key   => :move_left,
+             "left".gamepad => :move_left,
+             "right".key   => :move_right,
+             "right".gamepad  => :move_right,
+             "space".key  => :shoot)
   end
   
   def update
