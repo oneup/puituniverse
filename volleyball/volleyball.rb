@@ -1,10 +1,10 @@
 # entry for LD11
 
-class Puitvolley < Game
+class Volleyball < Game
   def setup
     @objects << VolleyballPlayer.left
     @objects << VolleyballPlayer.right
-    @objects << Volleyball.new
+    @objects << VolleyballBall.new
 #    @objects << Wall.new
   end
 end
@@ -19,22 +19,33 @@ class VolleyballGameobject < Gameobject
     @y += @vel_y
     
     @vel_y -= gravity
-    
-    if @y > bottom_border
-      @y = bottom_border
-      @vel_y = 0
-    end
-    
-    @x = (0..$game.width-sprite.height).limit @x
-    @y = (0..$game.height-sprite.height).limit @y
+
+    touch_wall :left if @x < 0
+    touch_wall :right if @x > right_border
+    touch_ground if @y > bottom_border
   end
   
+  def touch_wall side
+    if side == :left
+      @x = 0
+    else
+      @x = right_border
+    end
+  end
+  
+  def touch_ground
+    @y = bottom_border
+  end
+  
+  def right_border
+    $game.width - sprite.height
+  end
   def bottom_border
     $game.height - sprite.height - 10
   end
 end
 
-class Volleyball < VolleyballGameobject
+class VolleyballBall < VolleyballGameobject
   def initialize
     @x = $game.width/2
     @y = 10
@@ -47,17 +58,24 @@ class Volleyball < VolleyballGameobject
     @vel_x *= -1
   end
 
+  def touch_wall side
+    super side
+    bounce_x
+  end
+  
+  def touch_ground
+    super
+    @vel_y = @vel_y * (-0.8)
+  end
+  
   def update
     super
-    
-    if @x == 0 or @x == $game.width-sprite.height
-      bounce_x
-    end
-    
+
     $game.all(VolleyballPlayer).each do |object|
       if object.collides_with? self
         @vel_y = -10
         bounce_x
+        self.bottom = object.top
       end
     end
   end
@@ -100,7 +118,9 @@ class VolleyballPlayer < VolleyballGameobject
               Gosu::Button::KbUp  => :jump,
               Gosu::Button::GpUp  => :jump)
     else
-      #todo: set_keys CpuController irgendwie bla bla
+      set_keys(Gosu::Button::KbLeftControl   => :move_left,
+              Gosu::Button::KbLeftAlt  => :move_right,
+              Gosu::Button::KbLeftShift  => :jump)
     end
   end
     
