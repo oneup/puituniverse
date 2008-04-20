@@ -88,9 +88,7 @@ class Shot < Gameobject
     @target = target
     set_sprite "spaceinvaders/Shot1"
   end
-  
-  # todo: build a class that automatically adds accessors for everything. @owner suxx0rs
-  
+
   def update
     @y += @vel_y
 
@@ -106,7 +104,6 @@ end
 class PlayerShip < Gameobject
   attr_accessor :score
   @@speed = 5
-  attr_accessor :score
 
   def initialize
     set_sprite("spaceinvaders/Shooter")
