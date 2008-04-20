@@ -31,6 +31,7 @@ end
 
 class VolleyballGameobject < Gameobject
   attr_accessor :vel_x, :vel_y
+
   def gravity
     -0.25
   end
@@ -46,6 +47,14 @@ class VolleyballGameobject < Gameobject
     touch_ground if @y > bottom_border
   end
   
+  def in_air?
+    @y < bottom_border
+  end
+
+  def is_moving?
+    @vel_x != 0 # shouldn't this be @vel_x != 0 andvel_y != 0
+  end
+
   def touch_wall side
     if side == :left
       @x = 0
@@ -61,6 +70,7 @@ class VolleyballGameobject < Gameobject
   def right_border
     $game.width - sprite.height
   end
+  
   def bottom_border
     $game.height - sprite.height - (7.px)
   end
@@ -82,6 +92,7 @@ class VolleyballBall < VolleyballGameobject
   def touch_wall side
     super side
     bounce_x
+    @vel_y = @vel_y * (-0.5)
   end
   
   def touch_ground
@@ -95,7 +106,11 @@ class VolleyballBall < VolleyballGameobject
     $game.all(VolleyballPlayer).each do |player|
       if player.collides_with? self
         @vel_y = -10
-        @vel_x = player.vel_x * 1.5
+        if player.is_moving?
+          @vel_x += player.vel_x * 1.5
+        else
+          @vel_x = @vel_x * 0.5
+        end
         self.bottom = player.top
       end
     end
@@ -153,14 +168,10 @@ class VolleyballPlayer < VolleyballGameobject
   def font
     "puit/font/Busk_3x3pixel_fin".ttf
   end
-  
-  def jumping?
-    @vel_y.to_i == 0
-  end
 
   def jump pressed
     if pressed
-      @vel_y = -10
+      @vel_y = -10 unless in_air?
     end
   end
   
