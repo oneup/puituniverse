@@ -1,12 +1,25 @@
 module Collideable
+  attr_accessor :x, :y
   
   def left() x.to_f; end
   def right() x.to_f + width.to_f; end
   def top() y.to_f; end
   def bottom() y.to_f + height.to_f; end
   
+  def top= value
+    y = value
+  end
+
   def bottom= value
-    x = value - height
+    y = value - height
+  end
+  
+  def left= value
+    x = value
+  end
+  
+  def right= value
+    x = value - width
   end
 
   def outside? object

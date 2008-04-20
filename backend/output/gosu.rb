@@ -66,4 +66,8 @@ class Font < Gosu::Font
     # hacketyhack: gosu font loading doesn't throw an error if it failed, so we do
     text_width("test") rescue raise "Unable to load font #{filename}"
   end
+  
+  def draw(text, x,y,z=0)
+    super(text,x,y,z)
+  end
 end

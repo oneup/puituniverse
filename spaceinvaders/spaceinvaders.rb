@@ -1,11 +1,13 @@
 # a super mega massive awesome space invaders clone LOL !!!!111eleven
-# cc oneup
-# thx kingpepe
+# code (cc) oneup
+# graphics (cc) kingpepe
 
 class Spaceinvaders < Game
   attr_accessor :player
+  include Collideable
 
   def setup
+    @x, @y = 0, 0
     @player = PlayerShip.new
     @objects << @player
 
@@ -19,6 +21,16 @@ class Spaceinvaders < Game
       end
       row += 1
     end
+  end
+  
+  def font
+    "puit/font/Busk_3x3pixel_fin".ttf
+  end
+
+  def draw
+    super
+    font.draw("YOU WON", width-120, 10) if $game.count(EnemyShip) == 0
+    font.draw("YOU LOST", width-120, 10) if $game.count(PlayerShip) == 0
   end
 end
 
@@ -38,7 +50,7 @@ class EnemyShip < Gameobject
   def points
     (1 + EnemyShip.rows - @row) * 10
   end
-  
+
   def initialize x, row
     set_sprite "spaceinvaders/Space Invader#{row+1}"
 
@@ -77,8 +89,6 @@ class EnemyShip < Gameobject
   def die
     $game.player.score += self.points
     super
-    
-    $game.exit("Player won") if $game.count(EnemyShip) == 0
   end
 end
 
@@ -98,6 +108,8 @@ class Shot < Gameobject
         die
       end
     end
+    
+    die unless $game.collides_with? self
   end
 end
 
@@ -136,7 +148,7 @@ class PlayerShip < Gameobject
   end
   
   def font
-    "puit/font/Busk_3x3pixel_fin".ttf
+    $game.font
   end
   
   def shoot pressed
@@ -160,8 +172,7 @@ class PlayerShip < Gameobject
     @lives -= 1
 
     if @lives == 0
-      super
-      $game.exit("Player died")
+      super # really die
     end
   end
 end
