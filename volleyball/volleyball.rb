@@ -20,12 +20,30 @@ class Volleyball < Game
     @objects << VolleyballPlayer.left
     @objects << VolleyballPlayer.right
     @objects << VolleyballBall.new
-#    @objects << Wall.new
+    @objects << VolleyballNet.new
   end
   
   def draw
     "volleyball/background".img.draw()
     super
+  end
+  
+  def ground
+    $game.height - (7.px)
+  end
+end
+
+class VolleyballNet < Gameobject
+  def initialize
+    set_sprite "volleyball/net"
+    @x, @y = ($game.width-sprite.width)/2, $game.ground - sprite.height
+  end
+  
+  def update
+    super
+    $game.all(VolleyballBall).each do |ball|
+      ball.bounce_x if ball.collides_with? self
+    end
   end
 end
 
@@ -72,7 +90,7 @@ class VolleyballGameobject < Gameobject
   end
   
   def bottom_border
-    $game.height - sprite.height - (7.px)
+    $game.ground - sprite.height
   end
 end
 
@@ -82,7 +100,7 @@ class VolleyballBall < VolleyballGameobject
     @y = 5.px
     @vel_x = 5
     @vel_y = 0
-    set_sprite "puit/jack/stand"
+    set_sprite "volleyball/ball"
   end
   
   def bounce_x
@@ -92,12 +110,35 @@ class VolleyballBall < VolleyballGameobject
   def touch_wall side
     super side
     bounce_x
-    @vel_y = @vel_y * (-0.5)
+    @vel_x = @vel_x * (0.5)
   end
   
   def touch_ground
     super
     @vel_y = @vel_y * (-0.5)
+  end
+
+  def draw_move_mirror_factor
+    if @vel_x > 0
+      +1
+    elsif @vel_x < 0
+      -1
+    else
+      0
+    end
+  end
+  def draw_rotation
+    speed = @vel_x.abs + @vel_y.abs
+    @draw_rotation ||= 0
+    @draw_rotation += speed*draw_move_mirror_factor
+    if @draw_rotation > 360
+      @draw_rotation = 0
+    end
+    @draw_rotation
+  end
+
+  def draw
+    sprite.draw_rot(@x,@y,0,draw_rotation)
   end
   
   def update
@@ -107,7 +148,7 @@ class VolleyballBall < VolleyballGameobject
       if player.collides_with? self
         @vel_y = -10
         if player.is_moving?
-          @vel_x += player.vel_x * 1.5
+          @vel_x += player.vel_x
         else
           @vel_x = @vel_x * 0.5
         end
@@ -158,7 +199,12 @@ class VolleyballPlayer < VolleyballGameobject
               Gosu::Button::KbLeftShift     => :jump)
     end
   end
-    
+  
+  def touch_ground
+    super
+    @vel_y = 0
+  end
+
   def draw
     super
     x = @side == :left ? 10 : $game.width - 150
@@ -168,20 +214,67 @@ class VolleyballPlayer < VolleyballGameobject
   def font
     "puit/font/Busk_3x3pixel_fin".ttf
   end
-
+    
   def jump pressed
     if pressed
-      @vel_y = -10 unless in_air?
+      @jump_count = 2 if not in_air?
+      
+      if @jump_count > 0
+        if in_air?
+          @vel_y += jump_velocity # add to jump speed to doublejump higher
+        else
+          @vel_y = jump_velocity # jump up
+        end
+        @jump_count -= 1
+      end
     end
   end
   
-  def move_left pressed
-    @vel_x = -@@speed if pressed
-    @vel_x = 0 if not pressed and not is_pressed? :move_right
+  def jump_velocity
+    -7
+  end
+  
+  def acceleration
+    2
+  end
+  
+  def max_speed
+    6
+  end
+  
+  def friction
+    1
+  end
+  
+  def update
+    super
+    
+    if is_moving?
+      if @vel_x > 0
+        @vel_x -= friction
+        @vel_x = 0 if @vel_x < 0
+      else
+        @vel_x += friction
+        @vel_x = 0 if @vel_x > 0
+      end
+    end
+    
+    if is_pressed? :move_left and is_pressed? :move_right
+      # do nothing lol
+    elsif is_pressed? :move_left
+      @vel_x = -1 if @vel_x >= 0
+      @vel_x -= acceleration
+    elsif is_pressed? :move_right
+      @vel_x = 1 if @vel_x <= 0
+      @vel_x += acceleration
+    end
+    
+    @vel_x = (-max_speed..max_speed).limit @vel_x
   end
   
   def move_right pressed
-    @vel_x = @@speed if pressed
-    @vel_x = 0 if not pressed and not is_pressed? :move_left
-  end  
+  end
+  
+  def move_left pressed
+  end
 end
