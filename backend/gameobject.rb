@@ -61,11 +61,11 @@ class Gameobject
     @is_pressed[method]
   end
   
-  def on_button_down id
+  def button_down id
     on_button(true, id)
   end
   
-  def on_button_up id
+  def button_up id
     on_button(false, id)
   end
   

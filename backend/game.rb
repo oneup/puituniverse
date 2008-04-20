@@ -59,10 +59,10 @@ class Game < Window
   
   def button_down id
     exit("ESC or Q") if id == Gosu::Button::KbEscape or id == 12 # hacketyhack for alt+q (gosu doesn't find this o_O)
-    @objects.each {|o| o.on_button_down id }
+    @objects.each {|o| o.button_down id }
   end
 
   def button_up id
-    @objects.each {|o| o.on_button_up id }
+    @objects.each {|o| o.button_up id }
   end
 end

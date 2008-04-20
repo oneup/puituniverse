@@ -35,7 +35,6 @@ class String
   end
 
   def key
-    return self[0].to_i if self.size == 1
     return @@key_mapping[self]
   end
 end
