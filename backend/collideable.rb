@@ -7,19 +7,19 @@ module Collideable
   def bottom() y.to_f + height.to_f; end
   
   def top= value
-    y = value
+    @y = value
   end
 
   def bottom= value
-    y = value - height
+    @y = value - height
   end
   
   def left= value
-    x = value
+    @x = value
   end
   
   def right= value
-    x = value - width
+    @x = value - width
   end
 
   def outside? object
