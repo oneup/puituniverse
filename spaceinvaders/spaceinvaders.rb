@@ -1,6 +1,8 @@
-# a super mega massive awesome space invaders clone LOL !!!!111eleven
-# code (cc) oneup
-# graphics (cc) kingpepe
+# Space Invaders
+#   a super mega massive awesome space invaders clone LOL !!!!111eleven
+#
+#   code (cc) oneup <hello@geeq.at>
+#   graphics (cc) kingpepe
 
 class Spaceinvaders < Game
   attr_accessor :player

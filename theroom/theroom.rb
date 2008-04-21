@@ -23,6 +23,7 @@ class Theroom < Game
       when Gosu::Button::KbUp
         @selected_game_nr -= 1
       when Gosu::Button::KbReturn
+        close
         selected_game.run
     end
     

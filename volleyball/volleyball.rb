@@ -1,8 +1,6 @@
-# entry for LD11
-#require 'gl'
-#require 'glu'
-#include Gl
-#include Glu
+# Puit Volley
+#   entry for LD11
+#   2008 (cc) hello@geeq.at
 
 class Fixnum
   def px
@@ -31,10 +29,6 @@ class Volleyball < Game
   end
   
   def draw
-    #glTexParameteri(self.texture.target, 
-    #    GL_TEXTURE_MAG_FILTER, GL_NEAREST)
-    #glTexParameteri(self.texture.target, 
-    #    GL_TEXTURE_MIN_FILTER, GL_NEAREST)
     "volleyball/background".img.draw()
     super
   end
