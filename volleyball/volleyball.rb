@@ -1,4 +1,8 @@
 # entry for LD11
+#require 'gl'
+#require 'glu'
+#include Gl
+#include Glu
 
 class Image
   alias_method :old_draw, :draw
@@ -16,14 +20,28 @@ end
 class Volleyball < Game
   resolution [160*4, 100*4]
 
+  def set what, value
+    eval("@%s = value" % what)
+    self.class.send( :eval, "attr_accessor :%s" % what.to_s)
+  end
+  
   def setup
-    @objects << VolleyballPlayer.left
-    @objects << VolleyballPlayer.right
-    @objects << VolleyballBall.new
-    @objects << VolleyballNet.new
+    set :player_left, VolleyballPlayer.left
+    set :player_right, VolleyballPlayer.right
+    set :ball, VolleyballBall.new
+    set :net, VolleyballNet.new
+
+    @objects << player_left
+    @objects << player_right
+    @objects << ball
+    @objects << net
   end
   
   def draw
+    #glTexParameteri(self.texture.target, 
+    #    GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+    #glTexParameteri(self.texture.target, 
+    #    GL_TEXTURE_MIN_FILTER, GL_NEAREST)
     "volleyball/background".img.draw()
     super
   end
@@ -35,6 +53,10 @@ end
 
 class VolleyballGameobject < Gameobject
   attr_accessor :vel_x, :vel_y
+
+  def left_of? object
+    self.x < object.x
+  end
 
   def gravity
     -0.25
@@ -72,7 +94,7 @@ class VolleyballGameobject < Gameobject
   end
   
   def right_border
-    $game.width - sprite.height
+    $game.width - sprite.width
   end
   
   def bottom_border

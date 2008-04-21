@@ -75,15 +75,15 @@ class VolleyballPlayer < VolleyballGameobject
   end
   
   def jump_velocity
-    -7
+    -6
   end
   
   def acceleration
-    2
+    2.5
   end
   
   def max_speed
-    6
+    5
   end
   
   def friction

@@ -5,6 +5,10 @@ class VolleyballNet < Gameobject
     @x, @y = ($game.width-sprite.width)/2, $game.ground - sprite.height
   end
   
+  def height
+    $game.height
+  end
+  
   def update
     super
     $game.all(VolleyballBall).each do |ball|
@@ -12,10 +16,11 @@ class VolleyballNet < Gameobject
     end
     
     $game.all(VolleyballPlayer).each do |player|
-      player.vel_x = 0 if player.collides_with? self
-      if player.side == :left
+      next unless player.collides_with? self
+      player.vel_x = 0
+      if player.left_of? self
         player.right = self.left - 1
-      elsif player.side == :right
+      else
         player.left = self.right + 1
       end
     end

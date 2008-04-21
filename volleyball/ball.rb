@@ -21,6 +21,12 @@ class VolleyballBall < VolleyballGameobject
   def touch_ground
     super
     @vel_y = @vel_y * (-0.5)
+    # score for player
+    if self.left_of? $game.net
+      $game.player_right.score += 1
+    else
+      $game.player_left.score += 1
+    end
   end
 
   def draw_move_mirror_factor
@@ -32,6 +38,7 @@ class VolleyballBall < VolleyballGameobject
       0
     end
   end
+  
   def draw_rotation
     speed = @vel_x.abs + @vel_y.abs
     @draw_rotation ||= 0
@@ -43,7 +50,11 @@ class VolleyballBall < VolleyballGameobject
   end
 
   def draw
-    sprite.draw_rot(@x,@y,0,draw_rotation)
+    sprite.draw_rot(@x+width/2, @y+width/2, 0, draw_rotation)
+    
+    if bottom < 0
+      "volleyball/ball_indicator".img.draw(@x, bottom.abs)
+    end
   end
   
   def update
@@ -57,8 +68,10 @@ class VolleyballBall < VolleyballGameobject
         else
           @vel_x = @vel_x * 0.5
         end
-        self.bottom = player.top
+        #self.bottom = player.top
       end
     end
+    
+    @vel_y = 0 if @vel_y > -0.5 and @vel_y < 0.5 and @y > bottom_border - 1.px
   end
 end
