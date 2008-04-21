@@ -4,13 +4,6 @@
 #include Gl
 #include Glu
 
-class Image
-  alias_method :old_draw, :draw
-  def draw(x=0,y=0,z=0)
-    old_draw(x,y,z)
-  end
-end
-
 class Fixnum
   def px
     self*4

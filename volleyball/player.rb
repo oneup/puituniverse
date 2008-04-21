@@ -44,13 +44,28 @@ class VolleyballPlayer < VolleyballGameobject
     set_keys controller(side)
   end
   
+  def is_facing_left
+    @facing_left = true
+  end
+  
+  def is_facing_right
+    @facing_left = false
+  end
+  
+  def is_facing_left?
+    return @facing_left
+  end
   def touch_ground
     super
     @vel_y = 0
   end
 
   def draw
-    super
+    if is_facing_left?
+      sprite.draw(@x+width,@y, 0, -1)
+    else
+      sprite.draw(@x,@y)
+    end
     x = @side == :left ? 10 : $game.width - 150
     font.draw("#{@score} points", x, 10, 0)
   end
@@ -108,9 +123,11 @@ class VolleyballPlayer < VolleyballGameobject
     elsif is_pressed? :move_left
       @vel_x = -1 if @vel_x >= 0
       @vel_x -= acceleration
+      is_facing_left
     elsif is_pressed? :move_right
       @vel_x = 1 if @vel_x <= 0
       @vel_x += acceleration
+      is_facing_right
     end
     
     @vel_x = (-max_speed..max_speed).limit @vel_x
