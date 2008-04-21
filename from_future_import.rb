@@ -30,6 +30,14 @@ class Object
   def is? what
     self == what
   end
+  
+  def is_array?
+    return false
+  end
+  
+  def is_symbol?
+    return false
+  end
 end
 
 class Range
@@ -113,6 +121,16 @@ end
 class Array
   def count
     self.size
+  end
+  
+  def is_array?
+    true
+  end
+end
+
+class Symbol
+  def is_symbol?
+    true
   end
 end
 
