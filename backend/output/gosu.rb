@@ -40,16 +40,27 @@ class Image < Gosu::Image
     super($window, file_name, true)
   end
   
-  def draw(x,y,z=0,zoom_x=1,zoom_y=1)
+  def draw(x=0,y=0,z=0,zoom_x=1,zoom_y=1)
+    z ||= 0
+    zoom_x ||= 1
+    zoom_y ||= 1
+
     args = []
     if args.size > 0
       params = args.first
+      if params.is_symbol?
+        params = {params => nil}
+      end
       if params[:z]
         z = params[:z]
       end
       if params[:zoom]
         zoom_x = params[:zoom]
         zoom_y = zoom_x
+      end
+      if params[:mirror_horizontal]
+        zoom_x = -1
+        x = x + width
       end
       zoom_x = params[:zoom_x] if params[:zoom_x]
       zoom_y = params[:zoom_y] if params[:zoom_y]
