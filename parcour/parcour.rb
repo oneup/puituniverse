@@ -4,10 +4,9 @@
 #   code (cc) oneup <hello@geeq.at>
 #   graphics (cc) kingpepe
 
-class Spaceinvaders < Game
+class Parcour < Game
   attr_accessor :player
   include Collideable
-  resolution [640, 480]
 
   def setup
     @x, @y = 0, 0
