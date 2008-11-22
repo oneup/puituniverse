@@ -1,4 +1,5 @@
 class Theroom < Game
+  @@special_bundles = ['backend', 'resources', 'diary', 'theroom']
   resolution [640, 480]
   
   def setup
@@ -12,6 +13,9 @@ class Theroom < Game
       rescue
         #println "boken game or no game: #{possible_game}"
       end
+      
+      puts "@todo filter out gfx only bundles (ie puit)"
+      @bundles -= @@special_bundles
     end
     
     #set :font, "Lucida Grande".ttf
@@ -28,7 +32,7 @@ class Theroom < Game
       when Gosu::Button::KbReturn
         #close
         `ruby play.rb #{selected_game}&`
-        #exit(1)
+        close
     end
     
     @selected_game_nr = (0...(@bundles.count-1)).limit @selected_game_nr # has to be between 0 and $games.count so we don't selected non-existant bla bla bla bla bla bla bla bla bla :P
