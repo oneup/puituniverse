@@ -9,12 +9,11 @@ require "activeresource.rb"      # gemify this !
 begin
 
 # LOAD THE UNIVERSE
-".".each_dir do |bundle|
-  require_package bundle
-end
+require_package "backend"
 
 # CODE GAMES!
 $game_name = ARGV[0] || $config['default_game']
+require_package $game_name
 
 if $game_name.ends_with? "/"
   $game_name = $game_name[0...$game_name.size-1]
