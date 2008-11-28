@@ -1,3 +1,6 @@
+require "yaml"
+#require "jabber"
+
 # http://en.wikipedia.org/wiki/Shufflepuck_Cafe
 # thx http://youtube.com/watch?v=9pUmfxM9h54
 
@@ -8,9 +11,7 @@ class Mm9 < Game
 
   def draw
     super
-    "mm9/green_standing".img.draw(mouse_x,mouse_y, 
-                                0, # z order
-                                1+(mouse_y/height)*2, 1+(mouse_y/height)*2) # zoom
+    "mm9/blue/run".anim(24,24).draw(mouse_x,mouse_y) # zoom
   end
 end
 

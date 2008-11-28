@@ -25,9 +25,14 @@ class String
     "#{self}.yml".is_file?
   end
   
+  def anim(tile_width, tile_height)
+    Animation.cache(self, tile_width, tile_height)
+  end
+  
   def img
-    return Animation.cache(self) if self.is_yml?
-    return self.png
+    a = Animation.cache(self) if self.is_yml?
+    a ||= self.png
+    return a
   end
   
   def png
@@ -36,18 +41,23 @@ class String
 end
 
 class Animation
-  def initialize file_name
-    @yml = file_name.yml
-    @frames = []
+  def initialize file_name, tile_width=nil, tile_height=nil, duration=1
+    if tile_width # super ugly hack
+      @frame_pictures = Gosu::Image::load_tiles($window, file_name+".png", tile_width, tile_height, false)
+      @frames = @frame_pictures.map {|f| [duration, f]}
+    else
+      @yml = file_name.yml
+      @frames = []
     
-    @yml['frames'].each do |frame|
-      @frames << [frame['duration'] || 3, Image.cache(frame['image'])]
+      @yml['frames'].each do |frame|
+        @frames << [frame['duration'] || 3, Image.cache(frame['image'])]
+      end
     end
-  rescue
-    raise "error while loading animation config #{file_name}"
+#  rescue
+#    raise "error while loading animation config #{file_name}"
   end
   
-  def draw x, y, order, zoom_x=1, zoom_y=1
+  def draw x, y, order=0, zoom_x=1, zoom_y=1
     @frames[Gosu::milliseconds / 100 % @frames.size][1].draw(x, y, order, zoom_x, zoom_y)
   end
 end
