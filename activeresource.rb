@@ -58,7 +58,8 @@ class Animation
   end
   
   def draw x, y, order=0, zoom_x=1, zoom_y=1
-    current_frame = (Gosu::milliseconds / (100*@frames[0][0]) % @frames.size) # hackish
+    frame_duration = @frames[0][0]
+    current_frame = (Gosu::milliseconds / (100*frame_duration) % @frames.size) # hackish
     @frames[current_frame][1].draw(x, y, order, zoom_x, zoom_y)
   end
 end
