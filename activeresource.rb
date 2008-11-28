@@ -53,8 +53,8 @@ class Animation
         @frames << [frame['duration'] || duration, Image.cache(frame['image'])]
       end
     end
-#  rescue
-#    raise "error while loading animation config #{file_name}"
+  rescue
+    raise "error while loading animation config #{file_name}"
   end
   
   def draw x, y, order=0, zoom_x=1, zoom_y=1
