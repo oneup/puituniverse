@@ -9,7 +9,7 @@ class Window < Gosu::Window
     @@resolution = r
   end
   
-  def self.fullscreen= f
+  def self.fullscreen f
     @@fullscreen = f
   end
 

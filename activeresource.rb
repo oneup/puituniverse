@@ -25,8 +25,8 @@ class String
     "#{self}.yml".is_file?
   end
   
-  def anim(tile_width, tile_height)
-    Animation.cache(self, tile_width, tile_height)
+  def anim(tile_width, tile_height, duration=1)
+    Animation.cache(self, tile_width, tile_height, duration)
   end
   
   def img
@@ -50,7 +50,7 @@ class Animation
       @frames = []
     
       @yml['frames'].each do |frame|
-        @frames << [frame['duration'] || 3, Image.cache(frame['image'])]
+        @frames << [frame['duration'] || duration, Image.cache(frame['image'])]
       end
     end
 #  rescue
@@ -58,7 +58,8 @@ class Animation
   end
   
   def draw x, y, order=0, zoom_x=1, zoom_y=1
-    @frames[Gosu::milliseconds / 100 % @frames.size][1].draw(x, y, order, zoom_x, zoom_y)
+    current_frame = (Gosu::milliseconds / (100*@frames[0][0]) % @frames.size) # hackish
+    @frames[current_frame][1].draw(x, y, order, zoom_x, zoom_y)
   end
 end
 
