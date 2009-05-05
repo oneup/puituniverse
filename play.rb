@@ -3,8 +3,8 @@
 # RUBY PREREQUISITS
 require "rubygems"
 require "yaml"
-require "from_future_import.rb"  # gemify this !
-require "activeresource.rb"      # gemify this !
+require "ruby_fix/from_future_import.rb"  # gemify this !
+require "ruby_fix/activeresource.rb"      # gemify this !
     
 begin
 
