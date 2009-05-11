@@ -1,0 +1,64 @@
+8
+
+dir
+74
+svn://Florian@geeq.at/cute-wars/data/character
+svn://Florian@geeq.at/cute-wars
+
+
+
+2008-01-14T02:39:00.239628Z
+68
+Florian
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+9ca3876f-7f41-0410-a43c-b21b71d748c6
+
+jump_up
+dir
+
+running
+dir
+
+die_back
+dir
+
+die
+dir
+
+jump_down
+dir
+
+prone
+dir
+
+standing
+dir
+
+parachute
+dir
+
+animation.ini
+file
+
+
+
+
+2008-02-09T15:39:49.000000Z
+5658cdf78952b907604ca2eba145ca5c
+2008-01-14T02:39:00.239628Z
+68
+Florian
+

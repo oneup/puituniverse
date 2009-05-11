@@ -1,0 +1,64 @@
+stuff that's planned. somewhen.
+===================================================================================
+
+
+r1
+* You & a friend
+* fight an endless horde of enemy pixel soldiers
+* on different levels
+* they spawn on certain spawnpoints run fon the battle field from the edge of the screen or are dropped in by parachutes
+* The longer you survive, the higher your score is.
+* enemy waves get thougher the longer you live
+* achievements (50 kills, 100 kills, 50 kills without death, 50 knife etc etc)
+* hats & customization options are unlockable awards
+* stupid global statistics (miles ran, shots fired, hits, accuracy, killcount)
+* arcade mode balancing so it's actually fun (stronger waves, spawn minigun crates and extra lifes)
+* make real minigun shooting behaviour
+* eyecandy (muzzle flash)
+* also: maybe grenades
+* highscore handling
+* customize player
+* maybe online highscore
+* better ai
+* a proper arcade level
+
+... look for a developer to help with coding
+... look for a graphics guy to make concept art, animations etc
+... look for a sound guy to make music and ingame sounds
+
+rx
+
+* Time trial (kill as much as you can in x minutes, kill 100 as fast as possible)
+* twisted network multiplayer aaaaaaaaaaaaah
+* main screen: march of pixel soldiers and/or happy pixel folk jumping (different colours)
+* !!! soldier names !!!
+* customization
+* "you start as single soldier & rescue prisoners for your army" -> growing
+* online scoreboard
+* ranks
+* medals
+
+* jump / land animation - expand / contract ... stretch like bouncing ball
+* rock-paper-scissor balance between unit types
+
+** soldier mg (captures buildings, good against soldiers)
+** soldier rocketlauncher (good against tanks)
+** tank (good against bunkers / jeeps, can only roll over soldiers... very vulnerable to rocketlaunchers)
+** helicopter (transport soldiers & items)
+** jeep (good against helicopters)
+** bunker (gives money, mg/rocket shoots out)
+** anti air turret (good against helicopters, obviously)
+** base (where you build stuff)
+* gameplay notes
+** make it a bit slower than glory days II. 
+*** stuff needs multiple hits to be blown up
+* customizable nations (flags, sound effects / speaker)
+* multiplayer (internet & on one computer - horizontal splitscreen)
+** build "nations" and let other people join
+*** (idea) world map / global conflict mode-score-thingy?
+
+* death - soul fly up animation
+* particles with a trail behind them. like http://tmp.72dpiarmy.com/pixelwar/stickman_anim.gif
+* vector class for all position so we can write vector.add(bla, (3,2))
+* characters say speech bubbles in certain game situations (see patapon)
+* mirror liero gore physics

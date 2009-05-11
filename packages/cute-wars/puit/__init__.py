@@ -1,0 +1,2 @@
+gamestate = None
+game = None
