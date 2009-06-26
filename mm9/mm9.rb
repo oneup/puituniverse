@@ -1,8 +1,5 @@
 require "yaml"
-#require "jabber"
 
-# http://en.wikipedia.org/wiki/Shufflepuck_Cafe
-# thx http://youtube.com/watch?v=9pUmfxM9h54
 
 class Mm9 < Game
   fullscreen false
@@ -17,6 +14,7 @@ class Mm9 < Game
     super
   end
 end
+
 
 class Level < Gameobject
   attr_accessor :width, :height, :x, :y
@@ -68,6 +66,7 @@ class Level < Gameobject
     end
   end
 end
+
 
 class Player < Gameobject
   attr_accessor :width, :height, :x, :y
