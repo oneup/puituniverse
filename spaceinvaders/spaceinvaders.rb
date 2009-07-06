@@ -4,18 +4,39 @@
 #   code (cc) oneup <hello@geeq.at>
 #   graphics (cc) kingpepe
 
+require "activesupport"
+require "kyoto_reconstruction"
+
+def game
+  $game
+end
+
 class Spaceinvaders < Game
   attr_accessor :player
   include Collideable
+  include Timer
   resolution [640, 480]
 
   def setup
+    $game = self
+    
     @x, @y = 0, 0
     @player = PlayerShip.new
     @objects << @player
 
     row = 0
     EnemyShip.rows.times do |row|
+      x = 10 # fixme: calculate from EnemyShip.rows
+      EnemyShip.cols.times do
+        enemy = EnemyShip.new(x, row)
+        @objects << enemy
+        x += (enemy.width + 10)
+      end
+      row += 1
+    end
+    
+    every(2.seconds) do
+      row = 0
       x = 10 # fixme: calculate from EnemyShip.rows
       EnemyShip.cols.times do
         enemy = EnemyShip.new(x, row)
